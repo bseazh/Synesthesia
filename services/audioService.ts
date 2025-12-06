@@ -38,14 +38,16 @@ class AudioService {
     this.membrane = new Tone.MembraneSynth().toDestination();
     
     this.metal = new Tone.MetalSynth({
-      frequency: 200,
       envelope: { attack: 0.001, decay: 0.1, release: 0.01 },
       harmonicity: 5.1,
       modulationIndex: 32,
       resonance: 4000,
       octaves: 1.5
     }).toDestination();
-    if (this.metal) this.metal.volume.value = -10;
+    if (this.metal) {
+      this.metal.volume.value = -10;
+      this.metal.frequency.value = 200;
+    }
 
     this.isInitialized = true;
   }
@@ -76,7 +78,7 @@ class AudioService {
       } else if (row3.includes(key) && this.membrane) {
         this.membrane.triggerAttackRelease(noteToPlay || "C2", "8n");
       } else if (row2.includes(key) && this.metal) {
-        this.metal.triggerAttackRelease("32n");
+        this.metal.triggerAttackRelease("C4", "32n");
       } else if (row1.includes(key) && this.synth) {
         this.synth.triggerAttackRelease(noteToPlay || "C6", "32n");
       }
